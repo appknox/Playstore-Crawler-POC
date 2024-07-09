@@ -1,7 +1,7 @@
 import aiohttp
 import asyncio
 from bs4 import BeautifulSoup
-from src.database import save_to_db
+from database import save_to_db
 
 async def fetch(session, url):
     async with session.get(url) as response:

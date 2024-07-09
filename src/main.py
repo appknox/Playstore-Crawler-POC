@@ -1,9 +1,9 @@
 import asyncio
-from src.sitemap_downloader import get_sub_sitemaps
-from src.sitemap_processor import group_by_region, process_sub_sitemaps
-from src.metadata_fetcher import fetch_metadata_in_parallel
-from src.utils import setup_logging, split_chunks
-from src.database import create_tables
+from sitemap_downloader import get_sub_sitemaps
+from sitemap_processor import group_by_region, process_sub_sitemaps
+from metadata_fetcher import fetch_metadata_in_parallel
+from utils import setup_logging, split_chunks
+from database import create_tables
 import logging
 
 if __name__ == '__main__':
