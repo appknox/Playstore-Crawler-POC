@@ -1,3 +1,4 @@
+-- Active: 1720551315055@@127.0.0.1@3306@playstore_crawler
 CREATE DATABASE IF NOT EXISTS playstore_crawler;
 
 USE playstore_crawler;

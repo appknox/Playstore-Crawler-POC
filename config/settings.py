@@ -1,3 +1,9 @@
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
 # Configuration settings for the crawler
 API_BASE_URL = 'https://play.google.com/store/apps'
 DETAILS_URL = 'https://play.google.com/store/apps/details?id='
@@ -11,8 +17,8 @@ MAIN_SITEMAPS = [
 
 # MySQL database configuration
 MYSQL_CONFIG = {
-    'user': 'your_mysql_user',
-    'password': 'your_mysql_password',
-    'host': 'localhost',
-    'database': 'playstore_crawler'
+    'user': os.getenv('MYSQL_USER'),
+    'password': os.getenv('MYSQL_PASSWORD'),
+    'host': os.getenv('MYSQL_HOST'),
+    'database': os.getenv('MYSQL_DATABASE')
 }
