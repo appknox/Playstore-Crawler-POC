@@ -1,3 +1,3 @@
 # Playstore-Crawler
 
-## Retrieves all the metadata of all the application from app section of google playstore.
+## Crawler to scrape app information from the Google Play Store.
