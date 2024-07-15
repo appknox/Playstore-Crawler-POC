@@ -1,5 +1,8 @@
 requests
 beautifulsoup4
 aiohttp
+aiomysql
 mysql-connector-python
+requests_html
 python-dotenv
+lxml

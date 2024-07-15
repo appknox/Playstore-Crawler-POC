@@ -1,44 +1,37 @@
 import aiohttp
 import asyncio
 from bs4 import BeautifulSoup
+import logging
 
-async def fetch(session, url):
-    async with session.get(url) as response:
-        return await response.text()
+sem = asyncio.Semaphore(10)  # Limit to 10 concurrent requests
 
-async def process_sub_sitemap(url):
+async def fetch(session, url, sem):
+    async with sem:
+        async with session.get(url) as response:
+            response.raise_for_status()
+            
+            # Check for encoding
+            charset = 'ISO-8859-1'
+            print(f"Encoding for {url}: {charset}")  # Logging statement to check encoding
+            
+            content = await response.read()
+            return content.decode(charset)
+
+async def process_sub_sitemap(url, sem):
     async with aiohttp.ClientSession() as session:
-        content = await fetch(session, url)
-        soup = BeautifulSoup(content, 'xml')
-        # Extract URLs, app IDs, and alternate links with href lang
+        content = await fetch(session, url, sem)
+        soup = BeautifulSoup(content, features="html.parser")  # Specify HTML parser
         data = []
-        for url_tag in soup.find_all('url'):
-            loc = url_tag.find('loc').text
-            app_id = extract_app_id(loc)
-            alternates = [(link['hreflang'], link['href']) for link in url_tag.find_all('xhtml:link')]
-            data.append((loc, app_id, alternates))
+        loc = url
+        app_id = extract_app_id(loc)
+        alternates = [(link['hreflang'], link['href']) for link in soup.find_all('link', rel='alternate')]
+        data.append((loc, app_id, alternates))
         return data
 
 def extract_app_id(url):
-    # Logic to extract app ID from URL
     return url.split('id=')[-1]
 
-async def process_sub_sitemaps(urls):
-    tasks = [process_sub_sitemap(url) for url in urls]
+async def process_sub_sitemaps(urls, sem):
+    tasks = [process_sub_sitemap(url, sem) for url in urls]
     results = await asyncio.gather(*tasks)
-    # Flatten the list of lists
     return [item for sublist in results for item in sublist]
-
-def group_by_region(data):
-    # Implement grouping logic
-    grouped_data = {}
-    for item in data:
-        for hreflang, href in item[2]:
-            if hreflang not in grouped_data:
-                grouped_data[hreflang] = []
-            grouped_data[hreflang].append({
-                'url': item[0],
-                'app_id': item[1],
-                'alternate_link': href
-            })
-    return grouped_data

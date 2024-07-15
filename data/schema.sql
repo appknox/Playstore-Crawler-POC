@@ -1,4 +1,3 @@
--- Active: 1720551315055@@127.0.0.1@3306@playstore_crawler
 CREATE DATABASE IF NOT EXISTS playstore_crawler;
 
 USE playstore_crawler;
@@ -13,5 +12,16 @@ CREATE TABLE IF NOT EXISTS apps (
     developer_website VARCHAR(255),
     developer_email VARCHAR(255),
     icon VARCHAR(255),
-    screenshots JSON
+    screenshots JSON,
+    category VARCHAR(255),
+    rating VARCHAR(10),
+    number_of_reviews VARCHAR(255),
+    installs VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS sitemaps (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    url VARCHAR(255) NOT NULL,
+    app_id VARCHAR(255),
+    alternate_links TEXT
 );

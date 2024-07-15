@@ -10,8 +10,7 @@ LOG_PATH = 'logs/crawler.log'
 
 # Main sitemap URLs
 MAIN_SITEMAPS = [
-    'https://play.google.com/sitemaps/sitemaps-index-0.xml',
-    'https://play.google.com/sitemaps/sitemaps-index-1.xml'
+    'https://play.google.com/store/apps/details?id=com.ubercab',
 ]
 
 # MySQL database configuration
@@ -19,5 +18,5 @@ MYSQL_CONFIG = {
     'user': os.getenv('MYSQL_USER'),
     'password': os.getenv('MYSQL_PASSWORD'),
     'host': os.getenv('MYSQL_HOST'),
-    'database': os.getenv('MYSQL_DATABASE')
+    'db': os.getenv('MYSQL_DATABASE')
 }
